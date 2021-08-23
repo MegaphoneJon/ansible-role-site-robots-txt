@@ -1,0 +1,44 @@
+- block:
+  - name: update robots.txt
+    blockinfile:
+      path: "{{ webroot }}/robots.txt"
+      create: yes
+      block: |
+        User-agent: MJ12bot
+        User-agent: AhrefsBot
+        User-agent: dotbot
+        User-agent: PetalBot
+        User-agent: SemrushBot
+        User-agent: MauiBot (crawler.feedback+gamma@gmail.com)
+        Disallow: /
+
+  - name: git add robots.txt
+    command: git add robots.txt
+    args:
+      chdir: "{{ webroot }}"
+    register: add_result
+    become: yes
+    become_user: "{{ run_as_user }}"
+    changed_when: add_result.stdout != ''
+    failed_when: add_result.stderr != ''
+
+  - name: git commit robots.txt
+    command: "git commit -m 'improved robots.txt'"
+    args:
+      chdir: "{{ webroot }}"
+    register: commit_result
+    become: yes
+    become_user: "{{ run_as_user }}"
+    changed_when: commit_result.rc == 0
+    failed_when: not(commit_result.rc == 0 or 'nothing to commit, working tree clean' in commit_result.stdout_lines)
+
+  - name: git push
+    command: git push --set-upstream origin master
+    args:
+      chdir: "{{ webroot }}"
+    register: push_result
+    become: yes
+    become_user: "{{ run_as_user }}"
+    changed_when: push_result.rc == 0 and push_result.stderr != 'Everything up-to-date'
+    failed_when: not(push_result.rc == 0)
+  when: env == 'Dev'
