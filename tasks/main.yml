@@ -10,6 +10,7 @@
         User-agent: PetalBot
         User-agent: SemrushBot
         User-agent: MauiBot (crawler.feedback+gamma@gmail.com)
+        User-agent: SEOkicks-Robot
         Disallow: /
 
   - name: git add robots.txt
