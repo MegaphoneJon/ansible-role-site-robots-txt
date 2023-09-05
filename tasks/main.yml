@@ -11,6 +11,8 @@
         User-agent: SemrushBot
         User-agent: MauiBot (crawler.feedback+gamma@gmail.com)
         User-agent: SEOkicks-Robot
+        User-agent: Zoominfobot
+        User-agent: DataForSeoBot
         Disallow: /
 
   - name: git add robots.txt
