@@ -13,6 +13,7 @@
         User-agent: SEOkicks-Robot
         User-agent: Zoominfobot
         User-agent: DataForSeoBot
+        User-agent: serpstatbot
         Disallow: /
 
   - name: git add robots.txt
