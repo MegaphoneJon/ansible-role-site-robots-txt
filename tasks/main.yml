@@ -1,20 +1,18 @@
 - block:
+  - name: Create the text block
+    set_fact:
+      robots: "{{ robots|default('') + 'User-agent: ' + item + '\n' }}"
+    loop: "{{ blocked_bots }}"
+
+  - name: Finalize the text block
+    set_fact:
+      robots: "{{ robots + 'Disallow: /' }}"
+
   - name: update robots.txt
     blockinfile:
       path: "{{ webroot }}/robots.txt"
       create: yes
-      block: |
-        User-agent: MJ12bot
-        User-agent: AhrefsBot
-        User-agent: dotbot
-        User-agent: PetalBot
-        User-agent: SemrushBot
-        User-agent: MauiBot (crawler.feedback+gamma@gmail.com)
-        User-agent: SEOkicks-Robot
-        User-agent: Zoominfobot
-        User-agent: DataForSeoBot
-        User-agent: serpstatbot
-        Disallow: /
+      block: "{{ robots }}"
 
   - name: git add robots.txt
     command: git add robots.txt
