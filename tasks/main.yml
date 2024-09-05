@@ -6,7 +6,7 @@
 
   - name: Finalize the text block
     set_fact:
-      robots: "{{ robots + 'Disallow: /' }}"
+      robots: "{{ robots + 'Disallow: /\nCrawl-delay: 5' }}"
 
   - name: update robots.txt
     blockinfile:
